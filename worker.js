@@ -128,9 +128,9 @@ service.on('callback', function(action, userInfo, payload, delegate, done) {
 				done(err);
 			} else {
 				if (action == 'show') {
-					done({message:"Added to feed"});
+					done(null, {message:"Added to feed"});
 				} else {
-					done({message:"Removed from feed"});
+					done(null, {message:"Removed from feed"});
 				}
 			}
 		});
