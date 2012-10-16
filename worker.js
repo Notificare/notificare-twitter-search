@@ -123,7 +123,17 @@ service.on('callback', function(action, userInfo, payload, delegate, done) {
 	console.log('Handling callback action %s', action);
 	// Handle callback from App / Dashboard, call done(err, result) when done
 	if (userInfo && userInfo.id && action) {
-		delegate.updateData(userInfo.id, (action == 'show'), done);
+		delegate.updateData(userInfo.id, (action == 'show'), function(err, result) {
+			if (err) {
+				done(err);
+			} else {
+				if (action == 'show') {
+					done({message:"Added to feed"});
+				} else {
+					done({message:"Removed from feed"});
+				}
+			}
+		});
 	} else {
 		done('missing info');
 	}
