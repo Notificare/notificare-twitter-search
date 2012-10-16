@@ -132,6 +132,7 @@ service.on('callback', function(action, userInfo, payload, delegate, done) {
 //## Event handler for feed requests
 // Respond with the stored data
 service.on('feed', function(query, delegate, done) {
+	console.log('Feed request');
 	delegate.retrieveData(function(err, data) {
 		if (err) {
 			done(err);
