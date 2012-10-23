@@ -14,13 +14,14 @@ var service = new ServiceCentral.Service('twitter-search');
 // - The work itself
 // - A callback(err, result) to call when done
 service.on('work', function(name, config, delegate, done) {
-	console.log('Doing work for %s', name);
+	console.log('%s [NOTICE] Doing work for %s', Date(), name);
 	// Do some work, call done(err, result) when done
 	if (config && config.search) {
 		var url = "https://search.twitter.com/search.json?q=" + encodeURIComponent(config.search);
 		// Check if we have a previous run
 		delegate.retrieveState(function(err, result) {
 			if (err) {
+				console.log('%s [ERROR] %s', Date(), err.message);
 				done(err);
 			} else {
 				// If so, only retrieve new entries
@@ -33,14 +34,14 @@ service.on('work', function(name, config, delegate, done) {
 					url += "&rpp=10";
 				}
 				// Fetch entries that match the search
-				console.log('Fetching %s', url);
+				console.log('%s [NOTICE] Fetching %s', Date(), url);
 				service.fetch({url: url, json: true}, function(err, res, body) {
 					if (err) {
 						done(err);
 					} else {
 						// If there's data
 						if (body.results) {
-							console.log('Got %s new tweets', body.results.length);
+							console.log('%s [NOTICE] Got %s new tweets', Date(), body.results.length);
 							var length = 0,
 								successFul = 0;
 							// Wait for all entries to be stored and notified
