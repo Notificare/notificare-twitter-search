@@ -173,27 +173,3 @@ service.on('webhook', function(query, body, delegate, done) {
 });
 
 service.listen();
-
-process.on('SIGINT', function() {
-	console.log('%s [NOTICE] got a SIGINT, closing sockets, exiting.', Date());
-	service.close();
-	process.exit();
-});
-
-process.on('SIGTERM', function() {
-	console.log('%s [NOTICE] got a SIGTERM, closing sockets, exiting.', Date());
-	service.close();
-	process.exit();
-});
-
-process.on('SIGKILL', function() {
-	console.log('%s [NOTICE] got a SIGKILL, closing sockets, exiting.', Date());
-	service.close();
-	process.exit();
-});
-
-process.on('SIGHUP', function() {
-	console.log('%s [NOTICE] got a SIGHUP, reconnecting sockets.', Date());
-	service.close();
-	service.listen();
-});
