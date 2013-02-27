@@ -153,6 +153,22 @@ service.on('feed', function(query, delegate, done) {
 	});
 });
 
+//## Event handler for webhook tests
+//Respond by sending a notification with the message in the payload
+service.on('test', function(delegate, done) {
+	var notification = {
+		type: 'alert',
+		message: 'Twitter Search Test'
+	};
+	delegate.sendNotification(notification, function(err, result) {
+		if (err) {
+			done(err);
+		} else {
+			done(null, {result: 'aye aye captain!'});
+		}
+	});
+});
+
 //## Event handler for webhook requests
 // Respond by sending a notification with the message in the payload
 service.on('webhook', function(query, body, delegate, done) {
