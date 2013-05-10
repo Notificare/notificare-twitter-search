@@ -40,14 +40,16 @@ service.on('work', function(name, config, delegate, done) {
 						done(err);
 					} else {
 						// If there's data
-						if (body.results) {
+						if (body.results && body.results.length > 0) {
 							console.log('%s [NOTICE] Got %s new tweets', Date(), body.results.length);
 							var length = 0,
 								successFul = 0;
 							// Wait for all entries to be stored and notified
 							function ready(success) {
 								length++;
-								successFul++;
+								if (success) {
+									successFul++;
+								}
 								if (length == body.results.length) {
 									// if this was the last entry
 									if (successFul == length) {
@@ -100,11 +102,17 @@ service.on('work', function(name, config, delegate, done) {
 									}
 								});
 							});
+						} else {
+							debug('run completed, no new status updates for %s', name);
+							done(null, {result: 'run completed, no new status updates'});
 						}
 					}
 				});
 			}
 		});
+	} else {
+		debug('unconfigured service');
+		done(new Error('unconfigured service'));
 	}
 });
 
